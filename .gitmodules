@@ -1,0 +1,9 @@
+[submodule "CarND-LeNet-Lab"]
+	path = CarND-LeNet-Lab
+	url = https://github.com/udacity/CarND-LeNet-Lab.git
+[submodule "CarND-TensorFlow-Lab"]
+	path = CarND-TensorFlow-Lab
+	url = https://github.com/udacity/CarND-TensorFlow-Lab.git
+[submodule "CarND-Term1-Starter-Kit"]
+	path = CarND-Term1-Starter-Kit
+	url = https://github.com/udacity/CarND-Term1-Starter-Kit.git
