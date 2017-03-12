@@ -1,0 +1,98 @@
+#Project 2 Writeup Report (Resubmit)
+( I did not get enough time to do too much explorations but I tried to complete as much as possible. I think I will come back to this project if I have time at the end of the term.)
+<mark>(Thanks for the review and I expand as your suggestion. I highlighted the modifications I made for the resubmit in this markdown file.)</mark>
+
+##1. Dataset exploration
+
+What I did is basically to print out some figures for a certain label  and do a visual check of them. I also plotted the sign count distribution in a bar graph. Please check the code and output in from block 3.
+<mark> Thanks for the review comment about the np.where function. I plot one figure fore each label this time with the .where function</makr>
+
+##2. Model Architecture
+
+####1. preprocessing:
+I tried different figure processing algorithms, including grey scale, normalization, intensity normalization, contrast normalization.  But after all the stuff I tried, I only used the algorithm to make the figure brighter.  I found it is pretty effective.
+
+The brighter algorithm basically make dark figure much brighter and make bright image a little bit brighter. This is based on my finding that a lot of figures are pretty dark.
+
+Please check code block 4,5,6 for all the algorithm. Please check the output 6 for the brighter algorithm's processing results comparison. The figure is much brighter after the process.
+
+####2. Architecture:
+My model is based on the lenet lab model but I tuned the layer count and depth.
+
+I increase the depth of the convolution layer. The first convolution layer has depth of 16 and the second has depth of 32. This is based on my understanding that deeper layer means more various shapes the network can recognize.
+
+<mark>A list of the connections decribed as following:</mark>
+
+| Layer         		|     Description	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Input         		| 32x32x3 RGB image   							| 
+| Convolution 3x3     	| 1x1 stride, 3x3x3x16 shape Valid padding, outputs 30x30x16 	|
+| RELU					|												|
+| Max pooling	      	| 2x2 stride,  outputs 15x15x16				|
+| Convolution 3x3	    | 1x1 stride, 3x3x16x32 shape Valid padding outputs  13x13x32 |
+|RELU|
+|Max pooling|  2x2 stride, outputs 6x6x32 Valid padding |
+| Fully connected		| 6x6x32=1152, outputs=120  |
+| RELU				|        									|
+|Fully connected|intput=120 output=84|
+|RELU|												|
+|Fully connected| input=84 output=43 (n_classes)|
+
+
+
+I use epoch size as 30 and batch size as 20. I found that smaller batch size usually works better. I tried epoch size as large as 100. The accuracy can acheive 0.95 but it will take much longer time. Thus I finally use the epoch size of 30.
+
+Validate accuracy = 0.939
+Test accuracy = 0.919
+
+Please check the code in block 7 and 8 and the results following the blocks. 
+
+
+##3. New Images
+[image1]: ./moresign/30_crop.png "30 limit"
+[image2]: ./moresign/animal_crop.png "animal"
+[image3]: ./moresign/left_corp.png "left and straight"
+[image4]: ./moresign/stop_crop.png "stop"
+[image5]: ./moresign/work_crop.png "work zone"
+[image6]: ./moresign/nopass_crop.png "left and straight"
+[image7]: ./moresign/stop_1_crop.png "stop"
+[image8]: ./moresign/caution_crop.png "work zone"
+
+
+[image9]: ./prob_bar1.png "prob1"
+[image10]: ./prob_bar2.png "prob2"
+
+I downloaded five new images from google image search and resize them to 32x32.  Please find the images in block 9's output.
+<mark> I add 3 more images from google and google map, they are more distorted in some way. I also plot the bar figures as you suggested in code block. Please check the output of block 41.</mark>
+The eight images are:
+
+
+![alt text][image1]  ![alt text][image2]![alt text][image3]![alt text][image4]![alt text][image5]![alt text][image6]![alt text][image7]![alt text][image8]
+
+I test the model on the images and I found the accuracy is 100%.  The results are print out in block 10's results.
+
+<mark> The new accuracy is 75%. 2 out of 8 figures are mis-recognized. First is one of the stop sign, which is recognized as 31 but it is 14.  The softmax is pretty bad too. The probablity array is  [  8.58136490e-02,   8.01155493e-02,   7.89092779e-02, 7.30612725e-02,   7.18575865e-02], which means all five top have similar probablity. ![alt text][image9]
+  </mark>
+  
+ 
+ <mark>The most likly reason is that the sign is too distorted and on the far right of the figure. Comparing to other figures it is much more difficult to be recognized</mark>
+ 
+ <mark> The second mis-recognized figure is the work zone sign, which is mis-recognized as animal passing sign. The softmax probablity distribution is shown in the figure blow.
+ ![alt text][image10]
+           
+ <mark> Actually the correct prediction ranks as forth top probablity, which is very low. But all the top likely signs are with similar "triangle" shape. I found the training set only has small number of samples with labels as 31,30,25. This could be the reason that my model is not trained well that it cannot distingguish these "trangle" shape signs very well. To improve the situation, I think I may need more training samples on these figures or further train the model.
+  </mark>
+
+I print out the top five most likely predictions for each figure in block 13. The results show that the model is relatively confident about the correct prediction.
+
+##Issues:
+I spent a whole night trying to solve step 4 but I keep getting the error:
+ TypeError: eval() got an unexpected keyword argument 'feed_dict'
+ Is there anyway we can get the correct code eventually?
+ 
+ <mark> After reading your comment, I still dont know how to make this step work. I indeed used the conv2d tensor but the error still there. I asked the question in forum but still havn't got an answer. Can you share a complete code block, or maybe give some clue in the forum? The thread is:
+ https://discussions.udacity.com/t/project-2-step-4-problem/227973
+ Thank you.
+ </mark>
+
+
