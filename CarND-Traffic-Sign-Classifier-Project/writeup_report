@@ -1,0 +1,43 @@
+#Project 2 Writup
+( I did not get enough time to do too much explorations but I tried to complete as much as possible. I think I will come back to this project if I have time at the end of the term.)
+
+##1. Dataset exploration
+
+What I did is basically to print out some figures for a certain label  and do a visual check of them. I also plotted the sign count distribution in a bar graph. Please check the code and output in from block 3.
+
+##2. Model Architecture
+
+####1. preprocessing:
+I tried different figure processing algorithms, including grey scale, normalization, intensity normalization, contrast normalization.  But after all the stuff I tried, I only used the algorithm to make the figure brighter.  I found it is pretty effective.
+
+The brighter algorithm basically make dark figure much brighter and make bright image a little bit brighter. This is based on my finding that a lot of figures are pretty dark.
+
+Please check code block 4,5,6 for all the algorithm. Please check the output 6 for the brighter algorithm's processing results comparison. The figure is much brighter after the process.
+
+####2. Architecture:
+My model is based on the lenet lab model but I tuned the layer count and depth.
+
+I increase the depth of the convolution layer. The first convolution layer has depth of 16 and the second has depth of 32. This is based on my understanding that deeper layer means more various shapes the network can recognize.
+
+I use epoch size as 30 and batch size as 20. I found that smaller batch size usually works better. I tried epoch size as large as 100. The accuracy can acheive 0.95 but it will take much longer time. Thus I finally use the epoch size of 30.
+
+Validate accuracy = 0.939
+Test accuracy = 0.919
+
+Please check the code in block 7 and 8 and the results following the blocks. 
+
+
+##3. New Images
+
+I downloaded five new images from google image search and resize them to 32x32.  Please find the images in block 9's output.
+
+I test the model on the images and I found the accuracy is 100%.  The results are print out in block 10's results.
+
+I print out the top five most likely predictions for each figure in block 13. The results show that the model is relatively confident about the correct prediction.
+
+##Issues:
+I spent a whole night trying to solve step 4 but I keep getting the error:
+ TypeError: eval() got an unexpected keyword argument 'feed_dict'
+ Is there anyway we can get the correct code eventually?
+
+
