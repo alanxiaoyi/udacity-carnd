@@ -7,3 +7,9 @@
 [submodule "CarND-Term1-Starter-Kit"]
 	path = CarND-Term1-Starter-Kit
 	url = https://github.com/udacity/CarND-Term1-Starter-Kit.git
+[submodule "CarND-Alexnet-Feature-Extraction"]
+	path = CarND-Alexnet-Feature-Extraction
+	url = https://github.com/udacity/CarND-Alexnet-Feature-Extraction
+[submodule "CarND-Transfer-Learning-Lab"]
+	path = CarND-Transfer-Learning-Lab
+	url = https://github.com/udacity/CarND-Transfer-Learning-Lab
