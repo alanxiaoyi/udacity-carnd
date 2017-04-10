@@ -13,11 +13,13 @@ CSV_FILE1 = './data_reverse_lap/driving_log.csv'
 CSV_FILE2 = './data_recover2/driving_log.csv'
 CSV_FILE3 = './data_recover/driving_log.csv'
 CSV_FILE4 = './new_data/recover/driving_log.csv'
+CSV_FILE5 = './data_lap1/driving_log.csv'
 IMG_FOLDER = './new_data/forward/IMG/'
 IMG_FOLDER1 = './data_reverse_lap/IMG/'
 IMG_FOLDER2 = './data_recover2/IMG/'
 IMG_FOLDER3 = './data_recover/IMG/'
 IMG_FOLDER4 = './new_data/recorver/IMG/'
+IMG_FOLDER4 = './data_lap1/IMG/'
 
 def augment_imgs(images, measurements):
         
@@ -33,7 +35,7 @@ def augment_imgs(images, measurements):
 
 lines = []
 def read_files():
-    for i in [CSV_FILE, CSV_FILE1, CSV_FILE2,CSV_FILE3, CSV_FILE4]:
+    for i in [CSV_FILE, CSV_FILE1, CSV_FILE2,CSV_FILE3, CSV_FILE4, CSV_FILE5]:
         with open(i) as csvfile:
             reader = csv.reader(csvfile)
             for line in reader:
@@ -99,11 +101,11 @@ def main():
     model.add(Cropping2D(cropping=((70,25), (0,0))))
 
     model.add(Conv2D(24,5,5,subsample=(2,2),activation="relu"))
-#    model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     model.add(Conv2D(36,5,5,subsample=(2,2),activation="relu"))
-#    model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     model.add(Conv2D(48,5,5,subsample=(2,2),activation="relu"))
-#    model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     model.add(Conv2D(64,3,3,subsample=(1,1),activation="relu"))
 #    model.add(Dropout(0.5))
     model.add(Conv2D(64,3,3,subsample=(1,1),activation="relu")) 
@@ -120,9 +122,10 @@ def main():
 
     model.compile(loss='mse', optimizer='adam')
     model.fit_generator(train_generator,samples_per_epoch=len(train_samples)*2, \
-            validation_data=validation_generator,  nb_val_samples=len(validation_samples)*2, nb_epoch=7)
+            validation_data=validation_generator,  nb_val_samples=len(validation_samples)*2, nb_epoch=10)
 
-    model.save('test.h5')
+    model.save('test1.h5')
+    print("model saved")
 
 
 if __name__ == "__main__":
