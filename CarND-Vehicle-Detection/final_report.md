@@ -45,7 +45,7 @@ Please find the final output videos from final_output.mp4
 
 
 ###4. Stabilization and False positive rejection.
-
+----
 Besides using the heat map to reject false positive, I uses another history based algorithm to reject false positives. The similar algorithm I also used for stabilize the windows. I found the window boxes could shake a lot while recognizing.
 
 The algorithm could be found in code block 10:
@@ -72,7 +72,8 @@ Basically I created a limited sized array to record the window boxes in previous
 
 I also applied this algorithm to stabilize the window box. I use a weighted average to recenter the newly recognized box, so that the box shape will not change too drastically from frame to frame. The final output video shows that the algorithm works pretty well.
 
-###4. Discussions
+###5. Discussions
+----
 
 I feel the python based algorithm is too slow for real time recognition. The sliding window is not very efficient since all the windows need to be iterated. I think in real time recognition, windows that around a previous recognized car should be searched, and the edge of the camera should be searched since new car could appear. Other places can be optimized out in real time recognition.
 
