@@ -50,6 +50,7 @@ Besides using the heat map to reject false positive, I uses another history base
 
 The algorithm could be found in code block 10:
 
+```
 history_length = 10
 history_list = []
 def check_falsepos(box):
@@ -67,6 +68,7 @@ def check_falsepos(box):
         return 1
     else:
     	return 0
+```
 
 Basically I created a limited sized array to record the window boxes in previous frames. If the newly recognized box's location is too much different from previous frames' recognized boxes, I will reject this box. The algorithm based on the previous frames' boxes' averaged center locations. If the new box is far from the previous boxes' center, it is likely to be a false positive.
 
