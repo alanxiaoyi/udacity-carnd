@@ -34,7 +34,7 @@ I use the parameters above to complete the project. The orient, pix_per_cell, an
 
 
 | orient |  pix_per_cell | cell_per_block | channel | feature count | accuracy|
-|----------|:-------------:|---------|:-------------:|:-------------:|
+|----------|:-------------:|---------|:-------------:|:-------------:|:-------------:|
 | 12 |  8     |  2|  0  | 2352  | 0.95 |
 | 12 | 10     |  2|  0  | 1200  | 0.97 |
 | 12 | 16     |  2|  0  | 432  | 0.925 |
