@@ -13,11 +13,40 @@ HOG is implemented by using the hog function from the Scikit library. The hog fu
 
 Then I append all the features together as the full feature set of each figure. The features in the feature set need to be normalized. StandardScaler() and fit() are used to created the scaler and normalized all the features. In code block 6, I plot two figures from the car and not car figure sets and show the pre and after normalization features set.
 
+![Figure of images](./output_images/car1.png)
+
+
 Code block 7 shows the training process using LinearSVC(). The feature vector is of 2628 size and the accuracy of SVC is 0.98.
 
 For the feature parameters, I tried several different color spaces like RGB, LUV, and YCrCb. For HOG, I uses the parameters from the lecture. I tried to play with the parameters and found the training time could vary a lot. If I uses 6000 features, the training time could be up to 50 seconds. When I use 2000 features, the training time is under 10 seconds. For accuracy, I did not find significant difference by using different color spaces by using more than 2000 features.
 
+Below is the list of the HOG paramers I used:
 
+| params   |      value   |
+|----------|:-------------:|
+| orient |  9 | 
+| pix_per_cell |    8   |
+| cell_per_block  | 2 | 
+| color space | 'LUV' |
+ | channel | 0  |
+
+I use the parameters above to complete the project. The orient, pix_per_cell, and cell_per_block are the same parameters coming from the lecture. After I finished the project, I did some additional explarations with various paramters. The test is based on the microbenchmark (code block from "29 hot classify" class):
+
+
+| orient |  pix_per_cell | cell_per_block | channel | feature count | accuracy|
+|----------|:-------------:|---------|:-------------:|:-------------:|
+| 12 |  8     |  2|  0  | 2352  | 0.95 |
+| 12 | 10     |  2|  0  | 1200  | 0.97 |
+| 12 | 16     |  2|  0  | 432  | 0.925 |
+| 9 | 12   |  2|  0  | 576  | 0.94 |
+|12| 12   |  2|  0  | 768 | 0.955 |
+| 12 | 10     |  2|  ALL  | 3600  | 0.995 |
+| 12 | 10     |  2|  1  | 1200  | 0.975 |
+ 12 | 10     |  2|  2  | 1200  | 0.95 |
+ 
+ 
+ From the table, we can see that by using all channels, the accuracy is the highest which is up to 0.995. Using channel 0 and channel 2 gives similar results but channel 1 gives higher accuracy. For the other parameters, I found the oirent 12  and pix_per_cell 10 gives the higher accuracy. This is interesting since when I use pix_per_cell 8, the feature count is 2352, which is larger than using 10 as pix_per_cell, but the accuracy is lower. This is likely because of when I use smaller number of pix_per_cell, more noises are introduced. Larger number of pix_per_cell can reduce some of the noise factor. Another conlusion is that although using all channels could improve the accuracy, it also increases the feature count by 3x. For speed consideration, using channel 1 or 2 may be more effective in real use case.
+ 
 ###2. Sliding window searching
 ---
 From code block 8, I start to implement the sliding window searching algorithms. I created a function to use various scaled windows on the figure. The window size are:
@@ -31,10 +60,15 @@ Overlapping amounts are:
 
 All the parameters are determined by trying on the test car images. After code block 8, I showed a figure with all the windows plotted on it. 
 
+![Figure of images](./output_images/all_windows.png)
+
+
 In code block 9, I read in an image, and then loop around all the windows. For each window, I extracted features and use the SVC classifier to classify the slice of the image. After code block 9, I showed an example image with the cars located by multiple windows.
 
-Then following the lecture, I implemented the heat map algorithm to reject false positives. Basically, when multiple windows match a car, the area will become more "heated". So the area is more likely to be a car. If only one window matches, it will be filtered out. Please checkout code block 9 to find the implementation details. I show the heat map example from the output of code block 9.
+![Figure of images](./output_images/window_match.png)
 
+Then following the lecture, I implemented the heat map algorithm to reject false positives. Basically, when multiple windows match a car, the area will become more "heated". So the area is more likely to be a car. If only one window matches, it will be filtered out. Please checkout code block 9 to find the implementation details. I show the heat map example from the output of code block 9.
+![Figure of images](./output_images/after_filter.png)
 
 ###3. Image Processing Pipeline.
 ----
