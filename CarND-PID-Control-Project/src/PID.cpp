@@ -8,9 +8,9 @@ using namespace std;
 */
 
 #define INIT_DP  0.01
-#define INIT_DI 0.0001
+#define INIT_DI 0.001
 #define INIT_DD 0.1
-#define GRANU 400
+#define GRANU 100
 
 #define TWIDDLE 0
 
@@ -70,9 +70,12 @@ void PID::UpdateError(double cte) {
 
 	/**
 	 * Twiddle implementation: a state machine
+	 * Every GRANU number of points, this algorithm tries to calculate the total error
+	 * and use this total error to compare with best error and decide the next
+	 * step for each parameter.
 	 */
 	double sum = d_param[0] + d_param[1] + d_param[2];
-	if (counter % GRANU == 0 && sum > 0.0001 && TWIDDLE){
+	if (counter % GRANU == 0 && sum > 0.001 && TWIDDLE){
 		if(total_error < best_error){
 			best_error = total_error;
 			d_param[cur_param] *= 1.1;
@@ -88,9 +91,10 @@ void PID::UpdateError(double cte) {
 				d_param[cur_param] *= 0.9;
 				cur_param = (cur_param + 1) % 3;
 				cur_state = ADD_PARAM;
+				K_param[cur_param] += d_param[cur_param];
 			}
 		}
-
+		total_error = 0;
 		printf("k_param!!: %f, %f, %f\n", K_param[0], K_param[1], K_param[2]);
 	}
 

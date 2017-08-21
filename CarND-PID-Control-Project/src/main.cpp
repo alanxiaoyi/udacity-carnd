@@ -34,7 +34,7 @@ int main()
 
   PID pid;
 
-  //pid.Init(0.2, 0.01, 3.0); //first try parameter from the class
+  pid.Init(0.2, 0.01, 3.0); //first try parameter from the class
 
   /**
    * PD control: Car can still keep in lane. As lecture told, I is used to
@@ -42,16 +42,21 @@ int main()
    * not very useful.
    */
 
-  //pid.Init(0.189, 0, 2.9); // i = 0
+  //pid.Init(0.231476, 0, 3.10); // i = 0
 
   /**
    * PI control: Without D, the car overshoot at very begining. This is because
    * D factor is used to reduce overshooting. It considers how fast the error changes, and
    * make sure it is not too fast to incur overshooting.
    */
-  //pid.Init(0.189, 0.0098, 0); // d = 0
+  //pid.Init(0.231476, 0.011, 0); // d = 0
 
-  pid.Init(0.189, 0.0098, 2.9); //Parameters converged by twiddle
+
+  /**
+   * The final parameters are chosen by twiddle based on the initial factor.
+   * Please refer to PID.cpp for the algorithm details
+   */
+  pid.Init(0.231476, 0.011, 3.10); 
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -78,7 +83,7 @@ int main()
           pid.UpdateError(cte);
           steer_value = - pid.p_error * pid.K_param[0] - pid.i_error * pid.K_param[1] - pid.d_error * pid.K_param[2]; 
           // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
+ //        std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
 
           json msgJson;
 
@@ -93,7 +98,7 @@ int main()
           msgJson["steering_angle"] = steer_value;
 
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
-          std::cout << msg << std::endl;
+//          std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
         }
       } else {
