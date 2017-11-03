@@ -1,0 +1,30 @@
+Model Details.
+
+I tested the car for 25 miles and no collision happens. I set the safety buffer pretty aggressively to make the car take more chance to bypass.
+
+1. Trajectory Generation:
+
+I spent a lot of time on the trajectory generation thinking but couldn't come up with a way to easily complete it without watching the walk-through video. Then I found the walk through video implements this in a very simple and elegant way. It may not be complex enough for real traffic, but it works pretty well for the project.
+
+Basically I followed the code in the walk through video to implement the trajectory generation part. I include a couple of important points here to make sure I understand the code correctly.
+	a. We use the Frenet coordinates from sensor fusion so to easily determine the relative locations of other cars.
+	b. We change the points in the path to car's coordinates whose origin is the car. This makes the calculation easier.
+	c. The path is originally generated based on only three points (30, 60, 90), and then segmented to multiple points to make sure the speed is under limit.
+	d. To make sure the jerk and acceleration is small enough, the speed is set to be gradually changed. When car in front is too close or the car is too slow, the speed will gradually changed to be slower or faster.
+
+By following the walk through video, my car can smoothly follow the car in front or make simple lane change decisions.
+
+2. FSM: Behavior planning:
+
+The major part I implemented is the behavior planning for lane changing. I include some important details as below.
+
+	a. Costs are defined for turning right/left or keeping the lane.
+	b. Initially, keeping lanes will have higher cost when the front car is too close.
+	c. Changing left will have max cost if car is on left-most lane, and changing right will have max cost if car is on right-most lane.
+	d. If the other lane's car is predicted to clash when change lane, changing lane will have max cost.
+	e. Car tries to go to middle lane if both lanes have cars close by.
+	d. If other lane's car is faster than front car, keeping lane has even larger cost.
+
+
+The FSM will return decisions to the main loop, and the car will plan trajectory according to the decision.
+
